@@ -257,6 +257,53 @@
     
     <!-- Icon: route -->
     <!-- Credit: Ryan Smith -->
+    <DrawingImage x:Key="icon.dns">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V128 H128 V0 H0 Z">
+                <GeometryDrawing Brush="#1ba1e2">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry Center="64,64" RadiusX="28" RadiusY="28" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#123456" Thickness="6" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry Center="64,64" RadiusX="36" RadiusY="36" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#123456">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry Center="64,24" RadiusX="10" RadiusY="10" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#123456">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry Center="24,88" RadiusX="10" RadiusY="10" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#123456">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry Center="104,88" RadiusX="10" RadiusY="10" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#1ba1e2" Thickness="6" StartLineCap="Round" EndLineCap="Round" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <LineGeometry StartPoint="64,40" EndPoint="64,34" />
+                            <LineGeometry StartPoint="44,74" EndPoint="34,78" />
+                            <LineGeometry StartPoint="84,74" EndPoint="94,78" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
     <DrawingImage x:Key="icon.route">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">

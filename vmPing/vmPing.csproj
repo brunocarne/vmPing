@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>vmPing</RootNamespace>
     <AssemblyName>vmPing</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -82,6 +82,7 @@
     <Compile Include="Classes\ApplicationOptions.cs" />
     <Compile Include="Classes\CommandLine.cs" />
     <Compile Include="Classes\Configuration.cs" />
+    <Compile Include="Classes\DnsLookupService.cs" />
     <Compile Include="Classes\Favorite.cs" />
     <Compile Include="Classes\Probe-Dns.cs" />
     <Compile Include="Classes\Probe-Icmp.cs" />
@@ -102,6 +103,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DnsLookupWindow.xaml.cs">
+      <DependentUpon>DnsLookupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MultiInputWindow.xaml.cs">
       <DependentUpon>MultiInputWindow.xaml</DependentUpon>
@@ -215,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ResourceDictionaries\WindowChrome.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DnsLookupWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

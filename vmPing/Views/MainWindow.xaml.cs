@@ -24,6 +24,7 @@ namespace vmPing.Views
         public static RoutedCommand HelpCommand = new RoutedCommand();
         public static RoutedCommand NewInstanceCommand = new RoutedCommand();
         public static RoutedCommand TracerouteCommand = new RoutedCommand();
+        public static RoutedCommand DnsLookupCommand = new RoutedCommand();
         public static RoutedCommand FloodHostCommand = new RoutedCommand();
         public static RoutedCommand AddProbeCommand = new RoutedCommand();
         public static RoutedCommand MultiInputCommand = new RoutedCommand();
@@ -156,6 +157,7 @@ namespace vmPing.Views
             CommandBindings.Add(new CommandBinding(HelpCommand, HelpExecute));
             CommandBindings.Add(new CommandBinding(NewInstanceCommand, NewInstanceExecute));
             CommandBindings.Add(new CommandBinding(TracerouteCommand, TracerouteExecute));
+            CommandBindings.Add(new CommandBinding(DnsLookupCommand, DnsLookupExecute));
             CommandBindings.Add(new CommandBinding(FloodHostCommand, FloodHostExecute));
             CommandBindings.Add(new CommandBinding(AddProbeCommand, AddProbeExecute));
             CommandBindings.Add(new CommandBinding(MultiInputCommand, MultiInputWindowExecute));
@@ -177,6 +179,9 @@ namespace vmPing.Views
                 TracerouteCommand,
                 new KeyGesture(Key.T, ModifierKeys.Control)));
             InputBindings.Add(new InputBinding(
+                DnsLookupCommand,
+                new KeyGesture(Key.D, ModifierKeys.Control)));
+            InputBindings.Add(new InputBinding(
                 FloodHostCommand,
                 new KeyGesture(Key.F, ModifierKeys.Control)));
             InputBindings.Add(new InputBinding(
@@ -194,6 +199,7 @@ namespace vmPing.Views
             HelpMenu.Command = HelpCommand;
             NewInstanceMenu.Command = NewInstanceCommand;
             TracerouteMenu.Command = TracerouteCommand;
+            DnsLookupMenu.Command = DnsLookupCommand;
             FloodHostMenu.Command = FloodHostCommand;
             AddProbeMenu.Command = AddProbeCommand;
             MultiInputMenu.Command = MultiInputCommand;
@@ -205,6 +211,35 @@ namespace vmPing.Views
             for (; numberOfProbes > 0; --numberOfProbes)
                 _ProbeCollection.Add(new Probe());
         }
+
+        internal void StartDnsProbe(string host)
+        {
+            if (string.IsNullOrWhiteSpace(host))
+                return;
+
+            var normalizedHost = host.Trim();
+            var probeHostname = normalizedHost.StartsWith("D/", StringComparison.OrdinalIgnoreCase)
+                ? normalizedHost
+                : $"D/{normalizedHost}";
+
+            var existingProbe = _ProbeCollection.FirstOrDefault(p => string.IsNullOrWhiteSpace(p.Hostname));
+            if (existingProbe == null)
+            {
+                existingProbe = new Probe();
+                _ProbeCollection.Add(existingProbe);
+                RefreshColumnCount();
+            }
+
+            existingProbe.Hostname = probeHostname;
+
+            var aliasKey = normalizedHost.ToLowerInvariant();
+            existingProbe.Alias = null;
+            if (_Aliases.TryGetValue(aliasKey, out var aliasValue))
+                existingProbe.Alias = aliasValue;
+
+            existingProbe.StartStop();
+        }
+
 
         public void ProbeStartStop_Click(object sender, EventArgs e)
         {
@@ -331,6 +366,15 @@ namespace vmPing.Views
                 errorWindow.Owner = this;
                 errorWindow.ShowDialog();
             }
+        }
+
+        private void DnsLookupExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            var window = new DnsLookupWindow(this)
+            {
+                Owner = this
+            };
+            window.Show();
         }
 
         private void TracerouteExecute(object sender, ExecutedRoutedEventArgs e)
@@ -807,3 +851,5 @@ namespace vmPing.Views
         }
     }
 }
+
+

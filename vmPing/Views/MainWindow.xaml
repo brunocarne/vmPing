@@ -200,6 +200,13 @@
                     <Separator />
                 </MenuItem>
                 <Separator />
+                <!-- Menu: DNS Lookup -->
+                <MenuItem Header="{x:Static resource:Strings.Menu_DnsLookup}" x:Name="DnsLookupMenu" InputGestureText="Ctrl-D">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource icon.dns}" VerticalAlignment="Center" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
                 <!-- Menu: Traceroute -->
                 <MenuItem Header="{x:Static resource:Strings.Menu_Traceroute}" x:Name="TracerouteMenu" InputGestureText="Ctrl-T">
                     <MenuItem.Icon>

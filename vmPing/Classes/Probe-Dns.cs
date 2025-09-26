@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
-using System.Net;
 using System.Threading;
 
 namespace vmPing.Classes
@@ -15,31 +14,27 @@ namespace vmPing.Classes
 
             try
             {
-                AddHistory($"[\u2022] Resolving {Hostname}:{Environment.NewLine}");
-                switch (Uri.CheckHostName(Hostname))
+                var lines = await DnsLookupService.LookupAndFormatAsync(Hostname, cancellationToken);
+
+                foreach (var line in lines)
                 {
-                    case UriHostNameType.IPv4:
-                    case UriHostNameType.IPv6:
-                        var host = await Dns.GetHostEntryAsync(Hostname);
-                        cancellationToken.ThrowIfCancellationRequested();
-                        if (host != null)
-                            AddHistory($"    {host.HostName}");
-                        break;
-                    case UriHostNameType.Dns:
-                        var ipAddresses = await Dns.GetHostAddressesAsync(Hostname);
-                        cancellationToken.ThrowIfCancellationRequested();
-                        foreach (var ip in ipAddresses)
-                            AddHistory($"    {ip}");
-                        break;
-                    default:
-                        throw new Exception();
+                    cancellationToken.ThrowIfCancellationRequested();
+                    AddHistory(line);
                 }
-                AddHistory($"{Environment.NewLine}{Environment.NewLine}\u2605 Done");
+
+                AddHistory(string.Empty);
+                AddHistory("\u2605 Done");
             }
-            catch
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
             {
                 if (!cancellationToken.IsCancellationRequested)
-                    AddHistory($"{Environment.NewLine}\u2605 Unable to resolve hostname");
+                {
+                    AddHistory(string.Empty);
+                    AddHistory($"\u2605 DNS lookup failed: {ex.Message}");
+                }
             }
             finally
             {

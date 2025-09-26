@@ -269,6 +269,9 @@
   <data name="Menu_StatusHistory" xml:space="preserve">
     <value>Status History</value>
   </data>
+  <data name="Menu_DnsLookup" xml:space="preserve">
+    <value>DNS Lookup</value>
+  </data>
   <data name="Menu_Traceroute" xml:space="preserve">
     <value>Traceroute</value>
   </data>

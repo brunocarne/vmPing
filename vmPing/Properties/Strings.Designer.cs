@@ -504,6 +504,15 @@ namespace vmPing.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Traceroute.
         /// </summary>
+        /// <summary>
+        ///   Looks up a localized string similar to DNS Lookup.
+        /// </summary>
+        public static string Menu_DnsLookup {
+            get {
+                return ResourceManager.GetString("Menu_DnsLookup", resourceCulture);
+            }
+        }
+        
         public static string Menu_Traceroute {
             get {
                 return ResourceManager.GetString("Menu_Traceroute", resourceCulture);

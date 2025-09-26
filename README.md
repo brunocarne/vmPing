@@ -46,7 +46,7 @@ Recent Changes
 * When logging status changes to a text file, aliases are now included.
 * Lots of minor visual changes:
   - On status change alerts, the text for _DOWN_ and _UP_ is now all lowercase _down_ and _up_.
-  - On popup alerts, an arrow symbol replaces the word "is". For example _127.0.0.1 is down_ becomes _127.0.0.1 🠖 down_
+  - On popup alerts, an arrow symbol replaces the word "is". For example _127.0.0.1 is down_ becomes _127.0.0.1 &#x1F816; down_
   - All references to Popup Notifications have been renamed to Popup Alerts (to be consistent with email alerts and audio alerts).
   - Custom styling on the main dropdown menu. Added icons to most menu items.
   - Minor style changes and icons added to the alias and favorites windows.
@@ -175,7 +175,7 @@ Features
 * Favorites.  Easily save a collections of hosts to be recalled instantly at a later time.
 * Aliases.  You can assign a friendly display name for any given host.
 * Traceroute.  For the hostname, enter _T/HOSTNAME_ to perform a traceroute.
-* DNS forward and reverse lookups.  For the hostname, enter _D/NAME_OR_IP_ to perform a DNS lookup.
+* DNS forward and reverse lookups with detailed record data (A/AAAA/CNAME/MX/TXT/NS/SOA) and multi-resolver propagation checks.  Use the DNS Lookup menu (Ctrl-D) or enter _D/NAME_OR_IP_ in a probe to run a lookup.
 * Specify any number of hosts from the command line to instantly begin pinging when the application opens.
 * Specify a file containing a list of hosts to load and instantly ping when the application launches.
 * Command line usage:
