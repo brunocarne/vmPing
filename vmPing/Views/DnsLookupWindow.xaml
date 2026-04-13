@@ -1,4 +1,4 @@
-﻿<Window x:Class="vmPing.Views.DnsLookupWindow"
+<Window x:Class="vmPing.Views.DnsLookupWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="vmPing - DNS Lookup"
@@ -20,17 +20,30 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Hostname" VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock Text="Hostname:  " VerticalAlignment="Center" Foreground="White"/>
             <TextBox x:Name="HostnameTextBox"
                      Grid.Column="1"
                      Height="32"
                      FontSize="16"
                      VerticalContentAlignment="Center"
                      Margin="0,0,8,0"/>
+            <ComboBox x:Name="ResolverFilterComboBox"
+                      Grid.Column="2"
+                      Height="32"
+                      Width="160"
+                      FontSize="14"
+                      VerticalContentAlignment="Center"
+                      Margin="0,0,8,0"
+                      SelectedIndex="0">
+                <ComboBoxItem Content="All Resolvers"/>
+                <ComboBoxItem Content="Local Only"/>
+                <ComboBoxItem Content="Public Only"/>
+            </ComboBox>
             <Button x:Name="LookupButton"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     Padding="16,6"
                     Content="Lookup"
                     Click="LookupButton_Click"/>

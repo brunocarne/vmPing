@@ -12,6 +12,13 @@ using System.Threading.Tasks;
 
 namespace vmPing.Classes
 {
+    public enum DnsResolverFilter
+    {
+        All,
+        LocalOnly,
+        PublicOnly
+    }
+
     internal static class DnsLookupService
     {
         private const int DefaultTimeoutMilliseconds = 4000;
@@ -24,13 +31,13 @@ namespace vmPing.Classes
             new DnsResolver("Quad9", IPAddress.Parse("9.9.9.9"))
         };
 
-        internal static async Task<IReadOnlyList<string>> LookupAndFormatAsync(string input, CancellationToken token)
+        internal static async Task<IReadOnlyList<string>> LookupAndFormatAsync(string input, CancellationToken token, DnsResolverFilter filter = DnsResolverFilter.All)
         {
-            var payload = await LookupAsync(input, token).ConfigureAwait(false);
+            var payload = await LookupAsync(input, token, filter).ConfigureAwait(false);
             return BuildHistoryLines(payload);
         }
 
-        private static async Task<DnsLookupPayload> LookupAsync(string input, CancellationToken token)
+        private static async Task<DnsLookupPayload> LookupAsync(string input, CancellationToken token, DnsResolverFilter filter)
         {
             if (string.IsNullOrWhiteSpace(input))
                 throw new ArgumentException("Hostname cannot be empty.", nameof(input));
@@ -45,8 +52,8 @@ namespace vmPing.Classes
                 ? new[] { DnsRecordType.Ptr, DnsRecordType.Soa }
                 : new[] { DnsRecordType.A, DnsRecordType.Aaaa, DnsRecordType.CName, DnsRecordType.Mx, DnsRecordType.Txt, DnsRecordType.Ns, DnsRecordType.Soa };
 
-            var resolvers = GetResolvers().ToList();
-            if (resolvers.Count == 0)
+            var resolvers = GetResolvers(filter).ToList();
+            if (resolvers.Count == 0 && filter != DnsResolverFilter.LocalOnly)
                 resolvers.AddRange(PublicResolvers);
 
             var reports = new List<DnsLookupReport>();
@@ -58,20 +65,26 @@ namespace vmPing.Classes
 
             return new DnsLookupPayload(trimmedInput, queryName, isIp, recordTypes, reports);
         }
-        private static IEnumerable<DnsResolver> GetResolvers()
+        private static IEnumerable<DnsResolver> GetResolvers(DnsResolverFilter filter)
         {
             var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-            foreach (var resolver in GetLocalResolvers())
+            if (filter == DnsResolverFilter.All || filter == DnsResolverFilter.LocalOnly)
             {
-                if (seen.Add(resolver.Address.ToString()))
-                    yield return resolver;
+                foreach (var resolver in GetLocalResolvers())
+                {
+                    if (seen.Add(resolver.Address.ToString()))
+                        yield return resolver;
+                }
             }
 
-            foreach (var resolver in PublicResolvers)
+            if (filter == DnsResolverFilter.All || filter == DnsResolverFilter.PublicOnly)
             {
-                if (seen.Add(resolver.Address.ToString()))
-                    yield return resolver;
+                foreach (var resolver in PublicResolvers)
+                {
+                    if (seen.Add(resolver.Address.ToString()))
+                        yield return resolver;
+                }
             }
         }
 

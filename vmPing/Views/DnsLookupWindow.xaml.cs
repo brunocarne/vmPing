@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -51,7 +51,13 @@ namespace vmPing.Views
                 UpdateActionButtons();
 
                 var target = HostnameTextBox.Text.Trim();
-                var lines = await DnsLookupService.LookupAndFormatAsync(target, cancellation.Token);
+                var filter = DnsResolverFilter.All;
+                if (ResolverFilterComboBox.SelectedIndex == 1)
+                    filter = DnsResolverFilter.LocalOnly;
+                else if (ResolverFilterComboBox.SelectedIndex == 2)
+                    filter = DnsResolverFilter.PublicOnly;
+
+                var lines = await DnsLookupService.LookupAndFormatAsync(target, cancellation.Token, filter);
 
                 ResultsTextBox.Text = string.Join(Environment.NewLine, lines);
                 StatusText.Text = $"\u2605 Lookup complete ({lines.Count} lines).";
